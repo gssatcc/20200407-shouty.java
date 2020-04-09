@@ -27,3 +27,13 @@ Feature: Hear Shout
     Given Lucy is at 0, 0
     When Lucy shouts
     Then Lucy should not hear Lucy
+
+  Scenario Outline: only hear in-range shouts
+    Given Lucy is at 0, 0
+    And Sean is at <Seans-location>
+    When Sean shouts
+    Then Lucy should hear <what-Lucy-hears>
+    Examples: some simple examples
+      | Seans-location | what-Lucy-hears |
+      | 0, 900 | Sean |
+      | 800, 800 | nothing |
