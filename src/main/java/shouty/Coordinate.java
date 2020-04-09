@@ -11,9 +11,8 @@ public class Coordinate {
 
     public int distanceFrom(Coordinate other) {
 
-        // TODO: actually calculate distance between the coordinates.
-        //       e.g. return Math.abs(x - other.x);
-
-        return 0;
+        int xDistance = Math.abs(x - other.x);
+        int yDistance = Math.abs(y - other.y);
+        return Double.valueOf(Math.sqrt((xDistance*xDistance) + (yDistance*yDistance))).intValue();
     }
 }

@@ -1,35 +1,42 @@
 package shouty;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.emptyMap;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class ShoutSteps {
     private static final String ARBITRARY_MESSAGE = "Hello, world";
     private final Shouty shouty = new Shouty();
 
-    @Given("Lucy is at {int}, {int}")
-    public void lucy_is_at(int xCoord, int yCoord) {
-        shouty.setLocation("Lucy", new Coordinate(xCoord, yCoord));
+    @Given("{word} is at {int}, {int}")
+    public void person_is_at(String personName, int xCoord, int yCoord) {
+        shouty.setLocation(personName, new Coordinate(xCoord, yCoord));
     }
 
-    @Given("Sean is at {int}, {int}")
-    public void sean_is_at(int xCoord, int yCoord) {
-        shouty.setLocation("Sean", new Coordinate(xCoord, yCoord));
-    }
-
-    @When("Sean shouts")
-    public void sean_shouts() {
-        shouty.shout("Sean", ARBITRARY_MESSAGE);
+    @When("{word} shouts")
+    public void person_shouts(String personName) {
+        shouty.shout(personName, ARBITRARY_MESSAGE);
     }
 
     @Then("Lucy should hear Sean")
     public void lucy_should_hear_sean() {
-        assertEquals(1, shouty.getShoutsHeardBy("Lucy").size());
+
+        assertTrue(shouty.getShoutsHeardBy("Lucy").containsKey("Sean"));
+    }
+
+    @Then("{word} should not hear {word}")
+    public void listener_should_not_hear_shouter(String listenr, String shouter) {
+
+        assertFalse(shouty.getShoutsHeardBy(listenr).containsKey(shouter));
     }
 
     @Then("Lucy should hear nothing")
