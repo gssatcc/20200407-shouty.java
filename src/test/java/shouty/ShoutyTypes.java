@@ -18,6 +18,15 @@ public class ShoutyTypes implements cucumber.api.TypeRegistryConfigurer {
 
     @Override
     public void configureTypeRegistry(TypeRegistry typeRegistry) {
+        typeRegistry.defineParameterType(new ParameterType<>(
+                "coordinate",
+                "(\\d+), (\\d+)",
+                Coordinate.class,
+                (CaptureGroupTransformer<Coordinate>) groups ->
+                        new Coordinate(parseInt(groups[0]), parseInt(groups[1]))
+        ));
+
+
         typeRegistry.defineDataTableType(new DataTableType(PersonLocation.class,
                 (TableEntryTransformer<PersonLocation>) row -> {
                     String name = row.get("name");
